@@ -2,12 +2,18 @@
 
 namespace App;
 
+use App\Comment;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 class Post extends Model
 {
     protected $fillable = ['title', 'content'];
+
+
+    protected $casts = [
+        'pending' => 'boolean'
+    ];
 
     public function user()
     {
@@ -25,6 +31,11 @@ class Post extends Model
     public function getUrlAttribute()
     {
         return route('posts.show',[$this->id , $this->slug]);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 }
 
